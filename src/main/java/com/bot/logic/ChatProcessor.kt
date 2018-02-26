@@ -43,11 +43,11 @@ open class ChatProcessor(val user: User) {
 				selectedAction = chat.actions[i++]
 				selectedAction.handle(lock)
 				while (!selectedAction.isCompleted(message)) {
-					if (BotConfig.homeMessageFx(message.text)) {
+					if (BotConfig.homeMessageFx(message.text ?: "")) {
 						chat = BotConfig.startChatDeterminer(user)
 						return
 					}
-					if (BotConfig.backMessageFx(message.text)) {
+					if (BotConfig.backMessageFx(message.text ?: "")) {
 						i -= 2
 					} else {
 						try {
@@ -82,7 +82,7 @@ open class ChatProcessor(val user: User) {
 		chat.nextChatQuestion?.also {
 			sendMessage(it)
 			lock.lock()
-			if (BotConfig.homeMessageFx(message.text)) {
+			if (BotConfig.homeMessageFx(message.text ?: "")) {
 				chat = BotConfig.startChatDeterminer(user)
 				return
 			}
